@@ -9,7 +9,9 @@
 import UIKit
 
 class AddViewController: UIViewController,UITextFieldDelegate {
-
+//キーボードを出したり閉じたりしたいからUITextFieldDelegateを追加
+    
+//    todoを登録するString型の配列をつくる
     var array = [String]()
     
     @IBOutlet weak var textField: UITextField!
@@ -17,25 +19,29 @@ class AddViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//textField.delegateを自分に持ってくる
         textField.delegate = self
         // Do any additional setup after loading the view.
     }
     
     @IBAction func add(_ sender: Any) {
-//        現在の配列を取り出す
+        
+//        UserDefaultsに配列の状態で保存したものを配列の状態で取り出す
         if (UserDefaults.standard.object(forKey: "todo") != nil){
             array = UserDefaults.standard.object(forKey: "todo") as! [String]
         }
         
-        
+//        取り出したの配列に追加して保存する
         array.append(textField.text!)
         UserDefaults.standard.set(array, forKey: "todo")
         
+//        ボタンを押したら前の画面に戻る
         self.navigationController?.popViewController(animated: true)
     }
     
     
-    
+//    textFieldがもつデリゲートメソッドでUITextFieldDelegate書いたら使えるようになる
+//    リターンキーが押されたらキーボードを閉じる
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
